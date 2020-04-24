@@ -15,11 +15,11 @@ import time
 from collections import defaultdict
 from functools import partial
 
-import electrumx.lib.util as util
-from electrumx.lib.util import (
+import electrumxqtum.lib.util as util
+from electrumxqtum.lib.util import (
     pack_be_uint16, pack_le_uint64, unpack_be_uint16_from, unpack_le_uint64,
 )
-from electrumx.lib.hash import hash_to_hex_str, HASHX_LEN
+from electrumxqtum.lib.hash import hash_to_hex_str, HASHX_LEN
 
 
 class History(object):

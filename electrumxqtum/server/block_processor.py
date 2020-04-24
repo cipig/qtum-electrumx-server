@@ -18,14 +18,14 @@ from collections import defaultdict
 
 from aiorpcx import TaskGroup, run_in_thread, CancelledError
 
-import electrumx
-from electrumx.server.daemon import DaemonError
-from electrumx.lib.hash import hash_to_hex_str, HASHX_LEN, TOPIC_LEN
-from electrumx.lib.script import is_unspendable_legacy, is_unspendable_genesis
-from electrumx.lib.util import (
+import electrumxqtum
+from electrumxqtum.server.daemon import DaemonError
+from electrumxqtum.lib.hash import hash_to_hex_str, HASHX_LEN, TOPIC_LEN
+from electrumxqtum.lib.script import is_unspendable_legacy, is_unspendable_genesis
+from electrumxqtum.lib.util import (
     chunks, class_logger, pack_le_uint32, pack_le_uint64, unpack_le_uint64
 )
-from electrumx.server.db import FlushData
+from electrumxqtum.server.db import FlushData
 
 
 class Prefetcher(object):
@@ -698,7 +698,7 @@ class BlockProcessor(object):
         self.db.first_sync = False
         await self.flush(True)
         if first_sync:
-            self.logger.info(f'{electrumx.version} synced to '
+            self.logger.info(f'{electrumxqtum.version} synced to '
                              f'height {self.height:,d}')
         # Reopen for serving
         await self.db.open_for_serving()

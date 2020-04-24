@@ -16,9 +16,9 @@ from collections import defaultdict
 import attr
 from aiorpcx import TaskGroup, run_in_thread, sleep
 
-from electrumx.lib.hash import hash_to_hex_str, hex_str_to_hash
-from electrumx.lib.util import class_logger, chunks
-from electrumx.server.db import UTXO
+from electrumxqtum.lib.hash import hash_to_hex_str, hex_str_to_hash
+from electrumxqtum.lib.util import class_logger, chunks
+from electrumxqtum.server.db import UTXO
 
 
 @attr.s(slots=True)

@@ -17,7 +17,7 @@ import sys
 from os import environ
 
 from aiorpcx import timeout_after, connect_rs
-import electrumx.lib.text as text
+import electrumxqtum.lib.text as text
 
 
 simple_commands = {
@@ -80,8 +80,8 @@ other_commands = {
 def main():
     '''Send the RPC command to the server and print the result.'''
     main_parser = argparse.ArgumentParser(
-        'electrumx_rpc',
-        description='Send electrumx an RPC command'
+        'electrumxqtum_rpc',
+        description='Send electrumxqtum an RPC command'
     )
     main_parser.add_argument('-p', '--port', metavar='port_num', type=int,
                              help='RPC port number')

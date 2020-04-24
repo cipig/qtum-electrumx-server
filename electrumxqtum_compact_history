@@ -37,8 +37,8 @@ import sys
 import traceback
 from os import environ
 
-from electrumx import Env
-from electrumx.server.db import DB
+from electrumxqtum import Env
+from electrumxqtum.server.db import DB
 
 
 async def compact_history():

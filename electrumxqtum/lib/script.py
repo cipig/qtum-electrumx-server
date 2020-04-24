@@ -29,8 +29,8 @@
 
 from collections import namedtuple
 
-from electrumx.lib.enum import Enumeration
-from electrumx.lib.util import unpack_le_uint16_from, unpack_le_uint32_from, \
+from electrumxqtum.lib.enum import Enumeration
+from electrumxqtum.lib.util import unpack_le_uint16_from, unpack_le_uint32_from, \
     pack_le_uint16, pack_le_uint32
 
 

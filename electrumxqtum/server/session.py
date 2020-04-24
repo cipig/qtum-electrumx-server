@@ -26,14 +26,14 @@ from aiorpcx import (
 )
 import pylru
 
-import electrumx
-from electrumx.lib.merkle import MerkleCache
-from electrumx.lib.text import sessions_lines
-import electrumx.lib.util as util
-from electrumx.lib.hash import (sha256, hash_to_hex_str, hex_str_to_hash,
+import electrumxqtum
+from electrumxqtum.lib.merkle import MerkleCache
+from electrumxqtum.lib.text import sessions_lines
+import electrumxqtum.lib.util as util
+from electrumxqtum.lib.hash import (sha256, hash_to_hex_str, hex_str_to_hash,
                                 HASHX_LEN, Base58Error, TOPIC_LEN)
-from electrumx.server.daemon import DaemonError
-from electrumx.server.peers import PeerManager
+from electrumxqtum.server.daemon import DaemonError
+from electrumxqtum.server.peers import PeerManager
 
 
 BAD_REQUEST = 1
@@ -144,7 +144,7 @@ class SessionManager:
         self.hsub_results = None
         self._task_group = TaskGroup()
         self._sslc = None
-        # Event triggered when electrumx is listening for incoming requests.
+        # Event triggered when electrumxqtum is listening for incoming requests.
         self.server_listening = Event()
         self.session_event = Event()
 
@@ -322,7 +322,7 @@ class SessionManager:
                 self._tx_hashes_lookups, self._tx_hashes_hits, len(self._tx_hashes_cache)),
             'txs sent': self.txs_sent,
             'uptime': util.formatted_time(time.time() - self.start_time),
-            'version': electrumx.version,
+            'version': electrumxqtum.version,
         }
 
     def _session_data(self, for_log):
@@ -411,7 +411,7 @@ class SessionManager:
     async def rpc_add_peer(self, real_name):
         '''Add a peer.
 
-        real_name: "bch.electrumx.cash t50001 s50002" for example
+        real_name: "bch.electrumxqtum.cash t50001 s50002" for example
         '''
         await self.peer_mgr.add_localRPC_peer(real_name)
         return "peer '{}' added".format(real_name)
@@ -963,7 +963,7 @@ class ElectrumX(SessionBase):
         return {
             'hosts': hosts_dict,
             'pruning': None,
-            'server_version': electrumx.version,
+            'server_version': electrumxqtum.version,
             'protocol_min': min_str,
             'protocol_max': max_str,
             'genesis_hash': env.coin.GENESIS_HASH,
@@ -978,7 +978,7 @@ class ElectrumX(SessionBase):
     @classmethod
     def server_version_args(cls):
         '''The arguments to a server.version RPC call to a peer.'''
-        return [electrumx.version, cls.protocol_min_max_strings()]
+        return [electrumxqtum.version, cls.protocol_min_max_strings()]
 
     def protocol_version_string(self):
         return util.version_string(self.protocol_tuple)
@@ -1279,8 +1279,8 @@ class ElectrumX(SessionBase):
         revision //= 100
         daemon_version = '{:d}.{:d}.{:d}'.format(major, minor, revision)
         for pair in [
-                ('$SERVER_VERSION', electrumx.version_short),
-                ('$SERVER_SUBVERSION', electrumx.version),
+                ('$SERVER_VERSION', electrumxqtum.version_short),
+                ('$SERVER_SUBVERSION', electrumxqtum.version),
                 ('$DAEMON_VERSION', daemon_version),
                 ('$DAEMON_SUBVERSION', network_info['subversion']),
                 ('$DONATION_ADDRESS', self.env.donation_address),
@@ -1295,7 +1295,7 @@ class ElectrumX(SessionBase):
 
     async def banner(self):
         '''Return the server banner text.'''
-        banner = f'You are connected to an {electrumx.version} server.'
+        banner = f'You are connected to an {electrumxqtum.version} server.'
         self.bump_cost(0.5)
 
         if self.is_tor():
@@ -1371,7 +1371,7 @@ class ElectrumX(SessionBase):
                 BAD_REQUEST, f'unsupported protocol version: {protocol_version}'))
         self.set_request_handlers(ptuple)
 
-        return (electrumx.version, self.protocol_version_string())
+        return (electrumxqtum.version, self.protocol_version_string())
 
     async def crash_old_client(self, ptuple, crash_client_ver):
         if crash_client_ver:

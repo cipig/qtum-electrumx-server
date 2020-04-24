@@ -22,16 +22,16 @@ from collections import defaultdict
 import attr
 from aiorpcx import run_in_thread, sleep
 
-import electrumx.lib.util as util
-from electrumx.lib.hash import hash_to_hex_str
-from electrumx.lib.merkle import Merkle, MerkleCache
-from electrumx.lib.util import (
+import electrumxqtum.lib.util as util
+from electrumxqtum.lib.hash import hash_to_hex_str
+from electrumxqtum.lib.merkle import Merkle, MerkleCache
+from electrumxqtum.lib.util import (
     formatted_time, pack_be_uint16, pack_be_uint32, pack_le_uint64, pack_le_uint32,
     unpack_le_uint32, unpack_be_uint32, unpack_le_uint64
 )
-from electrumx.server.storage import db_class
-from electrumx.server.history import History
-from electrumx.server.eventlog import Eventlog
+from electrumxqtum.server.storage import db_class
+from electrumxqtum.server.history import History
+from electrumxqtum.server.eventlog import Eventlog
 
 
 UTXO = namedtuple("UTXO", "tx_num tx_pos tx_hash height value")

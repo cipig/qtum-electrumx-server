@@ -10,9 +10,9 @@ from collections import defaultdict
 from functools import partial
 from struct import pack, unpack
 
-import electrumx.lib.util as util
-from electrumx.lib.util import pack_be_uint16, unpack_be_uint16_from
-from electrumx.lib.hash import hash_to_hex_str, HASHY_LEN, TOPIC_LEN
+import electrumxqtum.lib.util as util
+from electrumxqtum.lib.util import pack_be_uint16, unpack_be_uint16_from
+from electrumxqtum.lib.hash import hash_to_hex_str, HASHY_LEN, TOPIC_LEN
 
 
 class Eventlog(object):

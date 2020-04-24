@@ -30,9 +30,9 @@
 from collections import namedtuple
 from hashlib import blake2s
 
-from electrumx.lib.hash import sha256, double_sha256, hash_to_hex_str
-from electrumx.lib.script import OpCodes
-from electrumx.lib.util import (
+from electrumxqtum.lib.hash import sha256, double_sha256, hash_to_hex_str
+from electrumxqtum.lib.script import OpCodes
+from electrumxqtum.lib.util import (
     unpack_le_int32_from, unpack_le_int64_from, unpack_le_uint16_from,
     unpack_be_uint16_from,
     unpack_le_uint32_from, unpack_le_uint64_from, pack_le_int32, pack_varint,

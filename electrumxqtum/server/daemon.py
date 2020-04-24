@@ -18,10 +18,10 @@ from struct import pack
 import aiohttp
 from aiorpcx import JSONRPC
 
-from electrumx.lib.util import hex_to_bytes, class_logger,\
+from electrumxqtum.lib.util import hex_to_bytes, class_logger,\
     unpack_le_uint16_from, pack_varint
-from electrumx.lib.hash import hex_str_to_hash, hash_to_hex_str
-from electrumx.lib.tx import DeserializerDecred
+from electrumxqtum.lib.hash import hex_str_to_hash, hash_to_hex_str
+from electrumxqtum.lib.tx import DeserializerDecred
 
 
 class DaemonError(Exception):

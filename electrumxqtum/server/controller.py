@@ -9,12 +9,12 @@ from asyncio import Event
 
 from aiorpcx import _version as aiorpcx_version, TaskGroup
 
-import electrumx
-from electrumx.lib.server_base import ServerBase
-from electrumx.lib.util import version_string
-from electrumx.server.db import DB
-from electrumx.server.mempool import MemPool, MemPoolAPI
-from electrumx.server.session import SessionManager
+import electrumxqtum
+from electrumxqtum.lib.server_base import ServerBase
+from electrumxqtum.lib.util import version_string
+from electrumxqtum.server.db import DB
+from electrumxqtum.server.mempool import MemPool, MemPoolAPI
+from electrumxqtum.server.session import SessionManager
 
 
 class Notifications(object):
@@ -93,7 +93,7 @@ class Controller(ServerBase):
 
         env = self.env
         min_str, max_str = env.coin.SESSIONCLS.protocol_min_max_strings()
-        self.logger.info(f'software version: {electrumx.version}')
+        self.logger.info(f'software version: {electrumxqtum.version}')
         self.logger.info(f'aiorpcX version: {version_string(aiorpcx_version)}')
         self.logger.info(f'supported protocol versions: {min_str}-{max_str}')
         self.logger.info(f'event loop policy: {env.loop_policy}')

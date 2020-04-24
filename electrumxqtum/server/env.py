@@ -12,8 +12,8 @@ import re
 from ipaddress import IPv4Address, IPv6Address
 
 from aiorpcx import Service, ServicePart
-from electrumx.lib.coins import Coin
-from electrumx.lib.env_base import EnvBase
+from electrumxqtum.lib.coins import Coin
+from electrumxqtum.lib.env_base import EnvBase
 
 
 class ServiceError(Exception):

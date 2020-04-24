@@ -2,9 +2,9 @@ import setuptools
 version = '1.14.0'
 
 setuptools.setup(
-    name='electrumX',
+    name='electrumXqtum',
     version=version,
-    scripts=['electrumx_server', 'electrumx_rpc', 'electrumx_compact_history'],
+    scripts=['electrumxqtum_server', 'electrumxqtum_rpc', 'electrumxqtum_compact_history'],
     python_requires='>=3.7',
     install_requires=['aiorpcX[ws]>=0.18.3,<0.19', 'attrs',
                       'plyvel', 'pylru', 'aiohttp>=3.3'],
@@ -22,12 +22,12 @@ setuptools.setup(
         'bell-yespower': ['bell-yespower'],
         'cpupower': ['cpupower'],
     },
-    packages=setuptools.find_packages(include=('electrumx*',)),
+    packages=setuptools.find_packages(include=('electrumxqtum*',)),
     description='ElectrumX Server',
     author='Neil Booth',
     author_email='kyuupichan@gmail.com',
     license='MIT Licence',
-    url='https://github.com/kyuupichan/electrumx',
+    url='https://github.com/kyuupichan/electrumxqtum',
     long_description='Server implementation for the Electrum protocol',
     download_url=('https://github.com/kyuupichan/electrumX/archive/'
                   f'{version}.tar.gz'),
