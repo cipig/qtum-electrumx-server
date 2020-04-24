@@ -16,9 +16,9 @@ import argparse
 import asyncio
 import sys
 
-from electrumx import Env
-from electrumx.server.db import DB
-from electrumx.lib.hash import hash_to_hex_str, Base58Error
+from electrumxqtum import Env
+from electrumxqtum.server.db import DB
+from electrumxqtum.lib.hash import hash_to_hex_str, Base58Error
 
 
 async def print_stats(hist_db, utxo_db):
@@ -98,7 +98,7 @@ def main():
     parser = argparse.ArgumentParser(
         'query.py',
         description='Invoke with COIN and DB_DIRECTORY set in the '
-        'environment as they would be invoking electrumx_server'
+        'environment as they would be invoking electrumxqtum_server'
     )
     parser.add_argument('-l', '--limit', metavar='limit', type=int,
                         default=10, help=f'maximum number of entries to '

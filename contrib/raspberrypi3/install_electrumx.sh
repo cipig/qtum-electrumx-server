@@ -1,6 +1,6 @@
 #!/bin/sh
 ###################
-# install electrumx
+# install electrumxqtum
 ###################
 
 # Remove "raspi-copies-and-fills" as it breaks the upgrade process
@@ -12,7 +12,7 @@ sudo apt-get update
 sudo apt-get dist-upgrade
 sudo apt-get autoremove
 
-# install electrumx dependencies
+# install electrumxqtum dependencies
 sudo apt-get install python3-pip
 sudo apt-get install build-essential libc6-dev
 sudo apt-get install libncurses5-dev libncursesw5-dev
@@ -21,7 +21,7 @@ sudo apt-get install libleveldb-dev
 sudo apt-get install git
 sudo pip3 install plyvel
 
-# install electrumx
-git clone https://github.com/kyuupichan/electrumx.git
-cd electrumx
+# install electrumxqtum
+git clone https://github.com/kyuupichan/electrumxqtum.git
+cd electrumxqtum
 sudo python3 setup.py install

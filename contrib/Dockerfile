@@ -1,17 +1,17 @@
-# example of Dockerfile that builds release of electrumx-1.13.0
+# example of Dockerfile that builds release of electrumxqtum-1.13.0
 # ENV variables can be overrided on the `docker run` command
 
 FROM ubuntu:18.04
 
 WORKDIR /
-ADD https://github.com/kyuupichan/electrumx/archive/1.13.0.tar.gz /
+ADD https://github.com/kyuupichan/electrumxqtum/archive/1.13.0.tar.gz /
 RUN tar zxvf *.tar.gz
 
 RUN apt-get update && \
         apt-get -y install python3.7 python3-pip librocksdb-dev libsnappy-dev libbz2-dev libz-dev liblz4-dev && \
         pip3 install aiohttp pylru python-rocksdb
 
-RUN cd /electrumx* && python3 setup.py install
+RUN cd /electrumxqtum* && python3 setup.py install
 
 ENV SERVICES="tcp://:50001"
 ENV COIN=BitcoinSV
@@ -27,9 +27,9 @@ VOLUME /db
 
 RUN mkdir -p "$DB_DIRECTORY" && ulimit -n 1048576
 
-CMD ["/usr/bin/python3", "/usr/local/bin/electrumx_server"]
+CMD ["/usr/bin/python3", "/usr/local/bin/electrumxqtum_server"]
 
-# build it with eg.: `docker build -t electrumx .`
+# build it with eg.: `docker build -t electrumxqtum .`
 # run it with eg.:
-# `docker run -d --net=host -v /home/electrumx/db/:/db -e DAEMON_URL="http://youruser:yourpass@localhost:8332" -e REPORT_SERVICES=tcp://example.com:50001 electrumx`
+# `docker run -d --net=host -v /home/electrumxqtum/db/:/db -e DAEMON_URL="http://youruser:yourpass@localhost:8332" -e REPORT_SERVICES=tcp://example.com:50001 electrumxqtum`
 # for a proper clean shutdown, send TERM signal to the running container eg.: `docker kill --signal="TERM" CONTAINER_ID`

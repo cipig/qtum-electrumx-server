@@ -1,17 +1,17 @@
 #!/bin/sh
 ###############
-# run_electrumx
+# run_electrumxqtum
 ###############
 
-# configure electrumx
+# configure electrumxqtum
 export COIN=BitcoinSegwit
 export DAEMON_URL=http://rpcuser:rpcpassword@127.0.0.1
 export NET=mainnet
 export CACHE_MB=400
-export DB_DIRECTORY=/home/username/.electrumx/db
-export SSL_CERTFILE=/home/username/.electrumx/certfile.crt
-export SSL_KEYFILE=/home/username/.electrumx/keyfile.key
-export BANNER_FILE=/home/username/.electrumx/banner
+export DB_DIRECTORY=/home/username/.electrumxqtum/db
+export SSL_CERTFILE=/home/username/.electrumxqtum/certfile.crt
+export SSL_KEYFILE=/home/username/.electrumxqtum/keyfile.key
+export BANNER_FILE=/home/username/.electrumxqtum/banner
 export DONATION_ADDRESS=your-donation-address
 
 # connectivity
@@ -23,13 +23,13 @@ export SSL_PORT=50002
 export REPORT_HOST=hostname.com
 export RPC_PORT=8000
 
-# run electrumx
+# run electrumxqtum
 ulimit -n 10000
-/usr/local/bin/electrumx_server 2>> /home/username/.electrumx/electrumx.log >> /home/username/.electrumx/electrumx.log &
+/usr/local/bin/electrumxqtum_server 2>> /home/username/.electrumxqtum/electrumxqtum.log >> /home/username/.electrumxqtum/electrumxqtum.log &
 
 ######################
-# auto-start electrumx
+# auto-start electrumxqtum
 ######################
 
 # add this line to crontab -e
-# @reboot /path/to/run_electrumx.sh
+# @reboot /path/to/run_electrumxqtum.sh

@@ -3,9 +3,9 @@ Description=Electrumx
 After=network.target
 
 [Service]
-EnvironmentFile=/etc/electrumx.conf
-ExecStart=/usr/local/bin/electrumx_server
-User=electrumx
+EnvironmentFile=/etc/electrumxqtum.conf
+ExecStart=/usr/local/bin/electrumxqtum_server
+User=electrumxqtum
 LimitNOFILE=8192
 TimeoutStopSec=30min
 
