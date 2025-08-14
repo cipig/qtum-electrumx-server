@@ -307,10 +307,18 @@ raise them.
   SSL listening sockets are closed until the session count drops
   naturally to 95% of the limit.  Defaults to 1,000.
 
+.. envvar:: MAX_RECV
+
+  The maximum size of an incoming message in bytes, the default is 1,000,000 bytes.
+  Note that the smallest sane/safe value for Bitcoin is ~800,100 bytes,
+  as the largest standard tx can have a weight of 400K but the protocol hex-encodes that,
+  plus there is a few bytes of protocol overhead. Setting this to lower than that
+  would preclude clients from broadcasting txs that could propagate over the network.
+
 .. envvar:: MAX_SEND
 
   The maximum size of a response message to send over the wire, in
-  bytes.  Defaults to 1,000,000 (except for AuxPoW coins, which default
+  bytes.  Defaults to 8,100,000 (except for AuxPoW coins, which default
   to 10,000,000).  Values smaller than 350,000 are taken as 350,000
   because standard Electrum protocol header "chunk" requests are almost
   that large.
@@ -319,14 +327,20 @@ raise them.
   served all at once or not at all, an obvious avenue for abuse.
   :envvar:`MAX_SEND` is a stop-gap until the protocol is improved to
   admit incremental history requests.  Each history entry is
-  approximately 100 bytes so the default is equivalent to a history
-  limit of around 10,000 entries, which should be ample for most
-  legitimate users.  If you use a higher default bear in mind one
-  client can request history for multiple addresses.  Also note that
-  the largest raw transaction you will be able to serve to a client is
-  just under half of :envvar:`MAX_SEND`, as each raw byte becomes 2
-  hexadecimal ASCII characters on the wire.  Very few transactions on
-  Bitcoin mainnet are over 500KB in size.
+  approximately 100 bytes, so the default is equivalent to a history
+  limit of around 80,000 entries, which should be ample for most
+  legitimate users.  If you use a higher default, bear in mind one
+  client can request history for multiple addresses.
+
+  Also note that the largest raw transaction you will be able to serve to a client is
+  just under half of :envvar:`MAX_SEND`, as each raw byte becomes 2 hexadecimal
+  ASCII characters on the wire.  For Bitcoin, the consensus limit for tx size is
+  4 M weight units, while the standardness (policy) limit is 400 K weight units.
+  When serialized as bytes, 4 M weight units is 4 MB, and when encoded as hex that is 8 MB.
+  The default was chosen so that such a tx could still be served.
+  (Note: in multi-party protocol, such as Lightning, a counterparty might collude with a miner
+  to get a tx mined. Being able to obtain such a raw tx might be part of the security
+  requirements of a protocol.)
 
 .. envvar:: COST_SOFT_LIMIT
 .. envvar:: COST_HARD_LIMIT
@@ -410,7 +424,7 @@ If you are not running a Tor proxy ElectrumX will be unable to connect
 to onion server peers, in which case rather than returning no onion
 peers it will fall back to a hard-coded list.
 
-To give incoming clients a full range of onion servers you will need
+To give incoming clients a full range of onion servers, you will need
 to be running a Tor proxy for ElectrumX to use.
 
 ElectrumX will perform peer-discovery by default and announce itself
@@ -496,5 +510,5 @@ your available physical RAM:
 
   I do not recommend raising this above 2000.
 
-.. _lib/coins.py: https://github.com/spesmilo/electrumx/blob/master/electrumx/lib/coins.py
+.. _lib/coins.py: https://github.com/spesmilo/electrumx/blob/master/src/electrumx/lib/coins.py
 .. _uvloop: https://pypi.python.org/pypi/uvloop

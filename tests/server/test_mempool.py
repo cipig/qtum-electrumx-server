@@ -7,18 +7,19 @@ from functools import partial
 from random import randrange, choice, seed
 
 import pytest
-from aiorpcx import Event, TaskGroup, sleep, ignore_after
+from aiorpcx import Event, sleep, ignore_after
 
 from electrumx.server.mempool import MemPool, MemPoolAPI
 from electrumx.lib.coins import BitcoinCash
 from electrumx.lib.hash import HASHX_LEN, hex_str_to_hash, hash_to_hex_str
 from electrumx.lib.tx import Tx, TxInput, TxOutput
+from electrumx.lib.util import OldTaskGroup
 
 
 coin = BitcoinCash
 tx_hash_fn = coin.DESERIALIZER.TX_HASH_FN
 # Change seed daily
-seed(datetime.date.today().toordinal)
+seed(datetime.date.today().toordinal())
 
 
 def random_tx(hash160s, utxos):
@@ -32,13 +33,23 @@ def random_tx(hash160s, utxos):
     for n in range(n_inputs):
         prevout = choice(list(utxos))
         hashX, value = utxos.pop(prevout)
-        inputs.append(TxInput(prevout[0], prevout[1], b'', 4294967295))
+        inputs.append(TxInput(
+            prev_hash=prevout[0],
+            prev_idx=prevout[1],
+            script=b'',
+            sequence=4294967295,
+        ))
         input_value += value
 
-    # Seomtimes add a generation/coinbase like input that is present
+    # Sometimes add a generation/coinbase like input that is present
     # in some coins
     if randrange(0, 10) == 0:
-        inputs.append(TxInput(bytes(32), 4294967295, b'', 4294967295))
+        inputs.append(TxInput(
+            prev_hash=bytes(32),
+            prev_idx=4294967295,
+            script=b'',
+            sequence=4294967295,
+        ))
 
     fee = min(input_value, randrange(500))
     input_value -= fee
@@ -48,11 +59,12 @@ def random_tx(hash160s, utxos):
         value = randrange(input_value + 1)
         input_value -= value
         pk_script = coin.hash160_to_P2PKH_script(choice(hash160s))
-        outputs.append(TxOutput(value, pk_script))
+        outputs.append(TxOutput(value=value, pk_script=pk_script))
 
-    tx = Tx(2, inputs, outputs, 0)
+    tx = Tx(version=2, inputs=inputs, outputs=outputs, locktime=0, txid=None, wtxid=None)
     tx_bytes = tx.serialize()
     tx_hash = tx_hash_fn(tx_bytes)
+    tx.txid = tx.wtxid = tx_hash
     for n, output in enumerate(tx.outputs):
         utxos[(tx_hash, n)] = (coin.hashX_from_script(output.pk_script),
                                output.value)
@@ -267,7 +279,7 @@ async def test_keep_synchronized(caplog):
     mempool = MemPool(coin, api)
     event = Event()
     with caplog.at_level(logging.INFO):
-        async with TaskGroup() as group:
+        async with OldTaskGroup() as group:
             await group.spawn(mempool.keep_synchronized, event)
             await event.wait()
             await group.cancel_remaining()
@@ -286,7 +298,7 @@ async def test_balance_delta():
     api.initialize()
     mempool = MemPool(coin, api)
     event = Event()
-    async with TaskGroup() as group:
+    async with OldTaskGroup() as group:
         await group.spawn(mempool.keep_synchronized, event)
         await event.wait()
         await group.cancel_remaining()
@@ -309,7 +321,7 @@ async def test_compact_fee_histogram():
     api.initialize()
     mempool = MemPool(coin, api)
     event = Event()
-    async with TaskGroup() as group:
+    async with OldTaskGroup() as group:
         await group.spawn(mempool.keep_synchronized, event)
         await event.wait()
         await group.cancel_remaining()
@@ -342,6 +354,8 @@ def test_compress_histogram():
     }
     compact = MemPool._compress_histogram(histogram, bin_size=100_000)
     assert compact == [(19, 78000), (18, 900000), (13, 5000), (12, 10000000)]
+    compact = MemPool._compress_histogram(histogram, bin_size=30_000)
+    assert compact == [(22, 1000), (21, 75000), (19, 2000), (18, 900000), (13, 5000), (12, 10000000), (10, 101000)]
 
     histogram = {
         1.0: 10_000_000,
@@ -361,7 +375,7 @@ async def test_potential_spends():
     api.initialize()
     mempool = MemPool(coin, api)
     event = Event()
-    async with TaskGroup() as group:
+    async with OldTaskGroup() as group:
         await group.spawn(mempool.keep_synchronized, event)
         await event.wait()
         await group.cancel_remaining()
@@ -396,7 +410,7 @@ async def test_transaction_summaries(caplog):
     mempool = MemPool(coin, api)
     event = Event()
     with caplog.at_level(logging.INFO):
-        async with TaskGroup() as group:
+        async with OldTaskGroup() as group:
             await group.spawn(mempool.keep_synchronized, event)
             await event.wait()
             await group.cancel_remaining()
@@ -416,7 +430,7 @@ async def test_unordered_UTXOs():
     api.initialize()
     mempool = MemPool(coin, api)
     event = Event()
-    async with TaskGroup() as group:
+    async with OldTaskGroup() as group:
         await group.spawn(mempool.keep_synchronized, event)
         await event.wait()
         await group.cancel_remaining()
@@ -443,7 +457,7 @@ async def test_mempool_removals():
     api.initialize()
     mempool = MemPool(coin, api, refresh_secs=0.01)
     event = Event()
-    async with TaskGroup() as group:
+    async with OldTaskGroup() as group:
         await group.spawn(mempool.keep_synchronized, event)
         await event.wait()
         # Remove half the TXs from the mempool
@@ -473,7 +487,7 @@ async def test_daemon_drops_txs():
     api.initialize()
     mempool = MemPool(coin, api, refresh_secs=0.01)
     event = Event()
-    async with TaskGroup() as group:
+    async with OldTaskGroup() as group:
         await group.spawn(mempool.keep_synchronized, event)
         await event.wait()
         await _test_summaries(mempool, api)
@@ -501,7 +515,7 @@ async def test_notifications(caplog):
 
     caplog.set_level(logging.DEBUG)
 
-    async with TaskGroup() as group:
+    async with OldTaskGroup() as group:
         # First batch enters the mempool
         api.raw_txs = {hash: raw_txs[hash] for hash in first_hashes}
         api.txs = {hash: txs[hash] for hash in first_hashes}
@@ -561,7 +575,7 @@ async def test_dropped_txs(caplog):
             del api.txs[prev_hash]
 
     with caplog.at_level(logging.INFO):
-        async with TaskGroup() as group:
+        async with OldTaskGroup() as group:
             await group.spawn(mempool.keep_synchronized, event)
             await event.wait()
             await group.cancel_remaining()

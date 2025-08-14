@@ -2,8 +2,8 @@
 ElectrumX
 =========
 
-.. image:: https://travis-ci.org/spesmilo/electrumx.svg?branch=master
-    :target: https://travis-ci.org/spesmilo/electrumx
+.. image:: https://api.cirrus-ci.com/github/spesmilo/electrumx.svg?branch=master
+    :target: https://cirrus-ci.com/github/spesmilo/electrumx
 .. image:: https://coveralls.io/repos/github/spesmilo/electrumx/badge.svg
     :target: https://coveralls.io/github/spesmilo/electrumx
 
@@ -22,8 +22,8 @@ Source Code
 ===========
 
 The project is hosted on `GitHub
-<https://github.com/spesmilo/electrumx/>`_.  and uses `Travis
-<https://travis-ci.org/spesmilo/electrumx>`_ for Continuous
+<https://github.com/spesmilo/electrumx/>`_.  and uses `Cirrus CI
+<https://cirrus-ci.com/github/spesmilo/electrumx>`_ for Continuous
 Integration.
 
 Please submit an issue on the `bug tracker
@@ -34,7 +34,7 @@ Authors and License
 ===================
 
 Neil Booth wrote the vast majority of the code; see :ref:`Authors`.
-Python version at least 3.7 is required.
+Python version at least 3.10 is required.
 
 The code is released under the `MIT Licence
 <https://github.com/spesmilo/electrumx/LICENCE>`_.
@@ -46,7 +46,7 @@ See :ref:`HOWTO`.
 
 There is also an `installer`_ available that simplifies the
 installation on various Linux-based distributions, and a `Dockerfile`_
-available .
+available.
 
 .. _installer: https://github.com/bauerj/electrumx-installer
 .. _Dockerfile: https://github.com/lukechilds/docker-electrumx

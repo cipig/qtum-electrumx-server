@@ -311,7 +311,7 @@ def test_DB_ENGINE():
 
 
 def test_MAX_SEND():
-    assert_integer('MAX_SEND', 'max_send', 1000000)
+    assert_integer('MAX_SEND', 'max_send', 8_100_000)
 
 
 def test_LOG_LEVEL():
@@ -324,7 +324,7 @@ def test_LOG_LEVEL():
 
 
 def test_MAX_SESSIONS():
-    too_big = 1000000
+    too_big = 10_000_000_000
     os.environ['MAX_SESSIONS'] = str(too_big)
     e = Env()
     assert e.max_sessions < too_big
