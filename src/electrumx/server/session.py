@@ -1131,14 +1131,14 @@ class ElectrumX(SessionBase):
         '''Wrap _notify_inner; websockets raises exceptions for unclear reasons.'''
         try:
             async with timeout_after(30):
-                await self._notify_inner(touched, height_changed)
+                await self._notify_inner(touched, eventlog_touched, height_changed)
         except TaskTimeout:
             self.logger.warning('timeout notifying client, closing...')
             await self.close(force_after=1.0)
         except Exception:
             self.logger.exception('unexpected exception notifying client')
 
-    async def _notify_inner(self, touched, height_changed):
+    async def _notify_inner(self, touched, eventlog_touched, height_changed):
         '''Notify the client about changes to touched addresses (from mempool
         updates or new blocks) and height.
         '''
